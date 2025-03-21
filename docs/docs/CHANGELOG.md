@@ -17,6 +17,7 @@ Livia sas Junius: Echo 2
 
 - Remove default RSS reader rule as it may allow for a targeted attack against rails apps
   [#67](https://github.com/TecharoHQ/anubis/pull/67)
+- Whitelist MojeekBot in botPolicies [#47](https://github.com/TecharoHQ/anubis/issues/47)
 
 ## v1.14.1
 

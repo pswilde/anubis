@@ -336,6 +336,14 @@
       ]
     },
     {
+      "name": "mojeekbot",
+      "user_agent_regex": "http\\://www\\.mojeek\\.com/bot\\.html",
+      "action": "ALLOW",
+      "remote_addresses": [
+        "5.102.173.71/32"
+      ]
+    },
+    {
       "name": "us-artificial-intelligence-scraper",
       "user_agent_regex": "\\+https\\:\\/\\/github\\.com\\/US-Artificial-Intelligence\\/scraper",
       "action": "DENY"
