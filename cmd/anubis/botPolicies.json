@@ -356,11 +356,6 @@
       "action": "ALLOW"
     },
     {
-      "name": "rss-readers",
-      "path_regex": ".*\\.(rss|xml|atom|json)$",
-      "action": "ALLOW"
-    },
-    {
       "name": "lightpanda",
       "user_agent_regex": "^Lightpanda/.*$",
       "action": "DENY"
