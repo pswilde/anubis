@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## v1.14.1
+
+Livia sas Junius: Echo 1
+
+- Set the `X-Real-Ip` header based on the contents of `X-Forwarded-For`
+  [#62](https://github.com/TecharoHQ/anubis/issues/62)
+
 ## v1.14.0
 
 Livia sas Junius

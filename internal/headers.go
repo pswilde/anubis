@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/TecharoHQ/anubis"
+	"github.com/sebest/xff"
 )
 
 // UnchangingCache sets the Cache-Control header to cache a response for 1 year if
@@ -30,6 +31,20 @@ func DefaultXRealIP(defaultIP string, next http.Handler) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		r.Header.Set("X-Real-Ip", defaultIP)
+		next.ServeHTTP(w, r)
+	})
+}
+
+// XForwardedForToXRealIP sets the X-Real-Ip header based on the contents
+// of the X-Forwarded-For header.
+func XForwardedForToXRealIP(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if xffHeader := r.Header.Get("X-Forwarded-For"); r.Header.Get("X-Real-Ip") == "" && xffHeader != "" {
+			ip := xff.Parse(xffHeader)
+			slog.Debug("setting x-real-ip", "val", ip)
+			r.Header.Set("X-Real-Ip", ip)
+		}
+
 		next.ServeHTTP(w, r)
 	})
 }

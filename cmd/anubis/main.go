@@ -214,6 +214,7 @@ func main() {
 	var h http.Handler
 	h = mux
 	h = internal.DefaultXRealIP(*debugXRealIPDefault, h)
+	h = internal.XForwardedForToXRealIP(h)
 
 	srv := http.Server{Handler: h}
 	listener, url := setupListener(*bindNetwork, *bind)
