@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## v1.14.2
+
+Livia sas Junius: Echo 2
+
 - Remove default RSS reader rule as it may allow for a targeted attack against rails apps
   [#67](https://github.com/TecharoHQ/anubis/pull/67)
 
