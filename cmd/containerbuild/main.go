@@ -23,20 +23,7 @@ var (
 	githubEventName   = flag.String("github-event-name", "", "GitHub event name")
 	pullRequestID     = flag.Int("pull-request-id", -1, "GitHub pull request ID")
 	slogLevel         = flag.String("slog-level", "INFO", "logging level (see https://pkg.go.dev/log/slog#hdr-Levels)")
-
-	knownContributors = []string{
-		"Xe",
-	}
 )
-
-func inList(needle string, haystack []string) bool {
-	for _, h := range haystack {
-		if h == needle {
-			return true
-		}
-	}
-	return false
-}
 
 func main() {
 	flagenv.Parse()
@@ -46,11 +33,7 @@ func main() {
 
 	koDockerRepo := strings.TrimRight(*dockerRepo, "/"+filepath.Base(*dockerRepo))
 
-	if *githubEventName == "pull_request" && !inList(*githubActor, knownContributors) {
-		if *pullRequestID == -1 {
-			log.Fatal("Must set --pull-request-id when --github-event-name=pull_request")
-		}
-
+	if *githubEventName == "pull_request" && *pullRequestID != -1 {
 		*dockerRepo = fmt.Sprintf("ttl.sh/techaro/pr-%d/anubis", *pullRequestID)
 		*dockerTags = fmt.Sprintf("ttl.sh/techaro/pr-%d/anubis:24h", *pullRequestID)
 		koDockerRepo = fmt.Sprintf("ttl.sh/techaro/pr-%d", *pullRequestID)
