@@ -177,7 +177,7 @@ func main() {
 	if *ed25519PrivateKeyHex == "" {
 		_, priv, err = ed25519.GenerateKey(rand.Reader)
 		if err != nil {
-			log.Fatalf("failed to generated ed25519 key: %v", err)
+			log.Fatalf("failed to generate ed25519 key: %v", err)
 		}
 
 		slog.Warn("generating random key, Anubis will have strange behavior when multiple instances are behind the same load balancer target, to fix this, persist hex as envvar ED25519_PRIVATE_KEY_HEX", "hex", hex.EncodeToString(priv.Seed()))

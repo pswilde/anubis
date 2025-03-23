@@ -22,7 +22,7 @@ export default function RandomKey() {
         const [key, setKey] = useState<String>(genRandomKey());
         const [refresh, setRefresh] = useState<number>(0);
         useEffect(() => {
-          setKey(genRandomKey);
+          setKey(genRandomKey());
         }, [refresh]);
         return (
           <span>
