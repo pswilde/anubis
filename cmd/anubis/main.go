@@ -2,6 +2,9 @@ package main
 
 import (
 	"context"
+	"crypto/ed25519"
+	"crypto/rand"
+	"encoding/hex"
 	"flag"
 	"fmt"
 	"log"
@@ -28,19 +31,33 @@ import (
 )
 
 var (
-	bind                = flag.String("bind", ":8923", "network address to bind HTTP to")
-	bindNetwork         = flag.String("bind-network", "tcp", "network family to bind HTTP to, e.g. unix, tcp")
-	challengeDifficulty = flag.Int("difficulty", anubis.DefaultDifficulty, "difficulty of the challenge")
-	metricsBind         = flag.String("metrics-bind", ":9090", "network address to bind metrics to")
-	metricsBindNetwork  = flag.String("metrics-bind-network", "tcp", "network family for the metrics server to bind to")
-	socketMode          = flag.String("socket-mode", "0770", "socket mode (permissions) for unix domain sockets.")
-	robotsTxt           = flag.Bool("serve-robots-txt", false, "serve a robots.txt file that disallows all robots")
-	policyFname         = flag.String("policy-fname", "", "full path to anubis policy document (defaults to a sensible built-in policy)")
-	slogLevel           = flag.String("slog-level", "INFO", "logging level (see https://pkg.go.dev/log/slog#hdr-Levels)")
-	target              = flag.String("target", "http://localhost:3923", "target to reverse proxy to")
-	healthcheck         = flag.Bool("healthcheck", false, "run a health check against Anubis")
-	debugXRealIPDefault = flag.String("debug-x-real-ip-default", "", "If set, replace empty X-Real-Ip headers with this value, useful only for debugging Anubis and running it locally")
+	bind                 = flag.String("bind", ":8923", "network address to bind HTTP to")
+	bindNetwork          = flag.String("bind-network", "tcp", "network family to bind HTTP to, e.g. unix, tcp")
+	challengeDifficulty  = flag.Int("difficulty", anubis.DefaultDifficulty, "difficulty of the challenge")
+	ed25519PrivateKeyHex = flag.String("ed25519-private-key-hex", "", "private key used to sign JWTs, if not set a random one will be assigned")
+	metricsBind          = flag.String("metrics-bind", ":9090", "network address to bind metrics to")
+	metricsBindNetwork   = flag.String("metrics-bind-network", "tcp", "network family for the metrics server to bind to")
+	socketMode           = flag.String("socket-mode", "0770", "socket mode (permissions) for unix domain sockets.")
+	robotsTxt            = flag.Bool("serve-robots-txt", false, "serve a robots.txt file that disallows all robots")
+	policyFname          = flag.String("policy-fname", "", "full path to anubis policy document (defaults to a sensible built-in policy)")
+	slogLevel            = flag.String("slog-level", "INFO", "logging level (see https://pkg.go.dev/log/slog#hdr-Levels)")
+	target               = flag.String("target", "http://localhost:3923", "target to reverse proxy to")
+	healthcheck          = flag.Bool("healthcheck", false, "run a health check against Anubis")
+	debugXRealIPDefault  = flag.String("debug-x-real-ip-default", "", "If set, replace empty X-Real-Ip headers with this value, useful only for debugging Anubis and running it locally")
 )
+
+func keyFromHex(value string) (ed25519.PrivateKey, error) {
+	keyBytes, err := hex.DecodeString(value)
+	if err != nil {
+		return nil, fmt.Errorf("supplied key is not hex-encoded: %w", err)
+	}
+
+	if len(keyBytes) != ed25519.SeedSize {
+		return nil, fmt.Errorf("supplied key is not %d bytes long, got %d bytes", ed25519.SeedSize, len(keyBytes))
+	}
+
+	return ed25519.NewKeyFromSeed(keyBytes), nil
+}
 
 func doHealthCheck() error {
 	resp, err := http.Get("http://localhost" + *metricsBind + "/metrics")
@@ -156,10 +173,26 @@ func main() {
 	}
 	fmt.Println()
 
+	var priv ed25519.PrivateKey
+	if *ed25519PrivateKeyHex == "" {
+		_, priv, err = ed25519.GenerateKey(rand.Reader)
+		if err != nil {
+			log.Fatalf("failed to generated ed25519 key: %v", err)
+		}
+
+		slog.Warn("generating random key, Anubis will have strange behavior when multiple instances are behind the same load balancer target, to fix this, persist hex as envvar ED25519_PRIVATE_KEY_HEX", "hex", hex.EncodeToString(priv.Seed()))
+	} else {
+		priv, err = keyFromHex(*ed25519PrivateKeyHex)
+		if err != nil {
+			log.Fatalf("failed to parse and validate ED25519_PRIVATE_KEY_HEX: %v", err)
+		}
+	}
+
 	s, err := libanubis.New(libanubis.Options{
 		Next:           rp,
 		Policy:         policy,
 		ServeRobotsTXT: *robotsTxt,
+		PrivateKey:     priv,
 	})
 	if err != nil {
 		log.Fatalf("can't construct libanubis.Server: %v", err)

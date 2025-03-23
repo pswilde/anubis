@@ -66,6 +66,7 @@ type Options struct {
 	Next           http.Handler
 	Policy         *policy.ParsedConfig
 	ServeRobotsTXT bool
+	PrivateKey     ed25519.PrivateKey
 }
 
 func LoadPoliciesOrDefault(fname string, defaultDifficulty int) (*policy.ParsedConfig, error) {
@@ -93,15 +94,19 @@ func LoadPoliciesOrDefault(fname string, defaultDifficulty int) (*policy.ParsedC
 }
 
 func New(opts Options) (*Server, error) {
-	pub, priv, err := ed25519.GenerateKey(rand.Reader)
-	if err != nil {
-		return nil, fmt.Errorf("failed to generate ed25519 key: %w", err)
+	if opts.PrivateKey == nil {
+		slog.Debug("opts.PrivateKey not set, generating a new one")
+		_, priv, err := ed25519.GenerateKey(rand.Reader)
+		if err != nil {
+			return nil, fmt.Errorf("lib: can't generate private key: %v", err)
+		}
+		opts.PrivateKey = priv
 	}
 
 	result := &Server{
 		next:       opts.Next,
-		priv:       priv,
-		pub:        pub,
+		priv:       opts.PrivateKey,
+		pub:        opts.PrivateKey.Public().(ed25519.PublicKey),
 		policy:     opts.Policy,
 		DNSBLCache: decaymap.New[string, dnsbl.DroneBLResponse](),
 	}

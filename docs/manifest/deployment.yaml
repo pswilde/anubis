@@ -22,7 +22,7 @@ spec:
         ports:
         - containerPort: 80
       - name: anubis
-        image: ghcr.io/techarohq/anubis:latest
+        image: ghcr.io/techarohq/anubis:main
         imagePullPolicy: Always
         env:
           - name: "BIND"
