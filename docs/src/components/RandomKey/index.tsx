@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import Code from "@theme/CodeInline";
 import BrowserOnly from "@docusaurus/BrowserOnly";
 
@@ -20,17 +20,16 @@ export default function RandomKey() {
     <BrowserOnly fallback={<div>Loading...</div>}>
       {() => {
         const [key, setKey] = useState<String>(genRandomKey());
-        const [refresh, setRefresh] = useState<number>(0);
-        useEffect(() => {
+        const genRandomKeyCb = useCallback(() => {
           setKey(genRandomKey());
-        }, [refresh]);
+        });
         return (
           <span>
             <Code>{key}</Code>
             <span style={{ marginLeft: "0.25rem", marginRight: "0.25rem" }} />
             <button
               onClick={() => {
-                setRefresh((n) => n + 1);
+                genRandomKeyCb();
               }}
             >
               ♻️
