@@ -247,7 +247,7 @@ func (s *Server) MaybeReverseProxy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ckie, err := r.Cookie(anubis.CookieName)
+	ckie, err := r.Cookie(s.opts.CookieName)
 	if err != nil {
 		lg.Debug("cookie not found", "path", r.URL.Path)
 		s.ClearCookie(w)
