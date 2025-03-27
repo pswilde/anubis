@@ -7,7 +7,7 @@ import (
 	"github.com/TecharoHQ/anubis"
 )
 
-func ClearCookie(w http.ResponseWriter) {
+func (s *Server) ClearCookie(w http.ResponseWriter) {
 	http.SetCookie(w, &http.Cookie{
 		Name:     anubis.CookieName,
 		Value:    "",
