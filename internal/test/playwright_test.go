@@ -211,14 +211,16 @@ func TestPlaywrightBrowser(t *testing.T) {
 			page.Goto(anubisURL, playwright.PageGotoOptions{
 				Timeout: &timeout,
 			})
+
+			if typ.Name() == "chromium" && os.Getenv("CI") == "true" {
+				//nosleep:bypass XXX(Xe): does this fix the broken tests???
+				time.Sleep(2 * time.Second)
+			}
 		})
 
 		for _, tc := range testCases {
 			name := fmt.Sprintf("%s/%s", typ.Name(), tc.name)
 			t.Run(name, func(t *testing.T) {
-				if name == "chromium/firefox" && os.Getenv("CI") == "true" {
-					t.Skip("XXX(Xe): this test fails in CI. Skipping.")
-				}
 				_, hasDeadline := t.Deadline()
 				if tc.isHard && hasDeadline {
 					t.Skip("skipping hard challenge with deadline")
