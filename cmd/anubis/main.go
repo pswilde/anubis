@@ -34,6 +34,7 @@ var (
 	bind                 = flag.String("bind", ":8923", "network address to bind HTTP to")
 	bindNetwork          = flag.String("bind-network", "tcp", "network family to bind HTTP to, e.g. unix, tcp")
 	challengeDifficulty  = flag.Int("difficulty", anubis.DefaultDifficulty, "difficulty of the challenge")
+	cookieDomain         = flag.String("cookie-domain", "", "if set, the top-level domain that the Anubis cookie will be valid for")
 	ed25519PrivateKeyHex = flag.String("ed25519-private-key-hex", "", "private key used to sign JWTs, if not set a random one will be assigned")
 	metricsBind          = flag.String("metrics-bind", ":9090", "network address to bind metrics to")
 	metricsBindNetwork   = flag.String("metrics-bind-network", "tcp", "network family for the metrics server to bind to")
@@ -193,6 +194,7 @@ func main() {
 		Policy:         policy,
 		ServeRobotsTXT: *robotsTxt,
 		PrivateKey:     priv,
+		CookieDomain:   *cookieDomain,
 	})
 	if err != nil {
 		log.Fatalf("can't construct libanubis.Server: %v", err)

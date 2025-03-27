@@ -67,6 +67,10 @@ type Options struct {
 	Policy         *policy.ParsedConfig
 	ServeRobotsTXT bool
 	PrivateKey     ed25519.PrivateKey
+
+	CookieDomain      string
+	CookieName        string
+	CookiePartitioned bool
 }
 
 func LoadPoliciesOrDefault(fname string, defaultDifficulty int) (*policy.ParsedConfig, error) {
@@ -108,6 +112,7 @@ func New(opts Options) (*Server, error) {
 		priv:       opts.PrivateKey,
 		pub:        opts.PrivateKey.Public().(ed25519.PublicKey),
 		policy:     opts.Policy,
+		opts:       opts,
 		DNSBLCache: decaymap.New[string, dnsbl.DroneBLResponse](),
 	}
 
@@ -145,6 +150,7 @@ type Server struct {
 	priv                ed25519.PrivateKey
 	pub                 ed25519.PublicKey
 	policy              *policy.ParsedConfig
+	opts                Options
 	DNSBLCache          *decaymap.Impl[string, dnsbl.DroneBLResponse]
 	ChallengeDifficulty int
 }
@@ -452,6 +458,7 @@ func (s *Server) PassChallenge(w http.ResponseWriter, r *http.Request) {
 		Value:    tokenString,
 		Expires:  time.Now().Add(24 * 7 * time.Hour),
 		SameSite: http.SameSiteLaxMode,
+		Domain:   s.opts.CookieDomain,
 		Path:     "/",
 	})
 
