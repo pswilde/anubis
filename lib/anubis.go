@@ -454,12 +454,13 @@ func (s *Server) PassChallenge(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.SetCookie(w, &http.Cookie{
-		Name:     anubis.CookieName,
-		Value:    tokenString,
-		Expires:  time.Now().Add(24 * 7 * time.Hour),
-		SameSite: http.SameSiteLaxMode,
-		Domain:   s.opts.CookieDomain,
-		Path:     "/",
+		Name:        anubis.CookieName,
+		Value:       tokenString,
+		Expires:     time.Now().Add(24 * 7 * time.Hour),
+		SameSite:    http.SameSiteLaxMode,
+		Domain:      s.opts.CookieDomain,
+		Partitioned: s.opts.CookiePartitioned,
+		Path:        "/",
 	})
 
 	challengesValidated.Inc()
