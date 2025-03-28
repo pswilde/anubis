@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Hide the directory listings for Anubis' internal static content
+- Changed `--debug-x-real-ip-default` to `--use-remote-address`, getting the IP address from the request's socket address instead.
 - DroneBL lookups have been disabled by default
 - Static asset builds are now done on demand instead of the results being committed to source control
 - The Dockerfile has been removed as it is no longer in use
