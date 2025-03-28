@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- DroneBL lookups have been disabled by default
+
 ## v1.15.0
 
 Zenos yae Galvus
