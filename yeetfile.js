@@ -2,8 +2,8 @@ go.install();
 
 ["amd64", "arm64"].forEach(goarch => rpm.build({
     name: "anubis",
-    description: "Anubis weighs the souls of incoming HTTP requests and uses a sha256 proof-of-work challenge in order to protect upstream resources from scraper bots.",
-    homepage: "https://xeiaso.net/blog/2025/anubis",
+    description: "Anubis weighs the souls of incoming HTTP requests and uses a proof-of-work challenge in order to protect upstream resources from scraper bots.",
+    homepage: "https://anubis.techaro.lol",
     license: "MIT",
     goarch,
 

@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - DroneBL lookups have been disabled by default
+- Static asset builds are now done on demand instead of the results being committed to source control
+- The Dockerfile has been removed as it is no longer in use
+- Developer documentation has been added to the docs site
 
 ## v1.15.0
 
