@@ -67,7 +67,7 @@ jobs:
     - name: install playwright browsers
       run: |
         npx --yes playwright@1.50.1 install --with-deps
-        npx --yes playwright@1.50.1 run-server --port 3000 &
+        npx --yes playwright@1.50.1 run-server --port 9001 &
 
     - name: install node deps
       run: |
