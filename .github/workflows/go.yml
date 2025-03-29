@@ -11,7 +11,7 @@ permissions:
   actions: write
 
 jobs:
-  build:
+  go_tests:
     #runs-on: alrest-techarohq
     runs-on: ubuntu-latest
     steps:
@@ -79,3 +79,7 @@ jobs:
 
     - name: Test
       run: npm run test
+
+    - uses: dominikh/staticcheck-action@v1
+      with:
+        version: "latest"
