@@ -26,7 +26,7 @@ func UnchangingCache(next http.Handler) http.Handler {
 // RemoteXRealIP sets the X-Real-Ip header to the request's real IP if
 // the setting is enabled by the user.
 func RemoteXRealIP(useRemoteAddress bool, bindNetwork string, next http.Handler) http.Handler {
-	if useRemoteAddress == false {
+	if !useRemoteAddress {
 		slog.Debug("skipping middleware, useRemoteAddress is empty")
 		return next
 	}

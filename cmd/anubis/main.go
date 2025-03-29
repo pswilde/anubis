@@ -16,7 +16,6 @@ import (
 	"os"
 	"os/signal"
 	"strconv"
-	"strings"
 	"sync"
 	"syscall"
 	"time"
@@ -25,7 +24,6 @@ import (
 	"github.com/TecharoHQ/anubis/internal"
 	libanubis "github.com/TecharoHQ/anubis/lib"
 	"github.com/TecharoHQ/anubis/lib/policy/config"
-	"github.com/TecharoHQ/anubis/web"
 	"github.com/facebookgo/flagenv"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -266,25 +264,4 @@ func metricsServer(ctx context.Context, done func()) {
 	if err := srv.Serve(listener); err != http.ErrServerClosed {
 		log.Fatal(err)
 	}
-}
-
-func serveMainJSWithBestEncoding(w http.ResponseWriter, r *http.Request) {
-	priorityList := []string{"zstd", "br", "gzip"}
-	enc2ext := map[string]string{
-		"zstd": "zst",
-		"br":   "br",
-		"gzip": "gz",
-	}
-
-	for _, enc := range priorityList {
-		if strings.Contains(r.Header.Get("Accept-Encoding"), enc) {
-			w.Header().Set("Content-Type", "text/javascript")
-			w.Header().Set("Content-Encoding", enc)
-			http.ServeFileFS(w, r, web.Static, "static/js/main.mjs."+enc2ext[enc])
-			return
-		}
-	}
-
-	w.Header().Set("Content-Type", "text/javascript")
-	http.ServeFileFS(w, r, web.Static, "static/js/main.mjs")
 }
