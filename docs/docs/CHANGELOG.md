@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+- Allow iMessage's link preview fetcher through Anubis by default.
 - Added a periodic cleanup routine for the decaymap that removes expired entries, ensuring stale data is properly pruned.
 - Added a no-store Cache-Control header to the challenge page
 - Hide the directory listings for Anubis' internal static content
