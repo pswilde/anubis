@@ -1,21 +1,21 @@
-NODE_MODULES = 'node_modules'
+NODE_MODULES = node_modules
 
-.phony: assets build deps lint test
+.PHONY: build assets deps lint test
 
-assets:
+$(NODE_MODULES):
 	npm run assets
 
-build:
-	ifeq ("$(wildcard $(NODE_MODULES))", "")
-		@echo "please run make deps"
-	else
-		npm run build
-		@echo "Anubis is now built to ./var/anubis"
-	endif
+assets: $(NODE_MODULES)
 
-deps:
+deps: assets
 	npm ci
 	go mod download
+
+build: deps
+	npm run build
+	@echo "Anubis is now built to ./var/anubis"
+
+all: build
 
 lint:
 	go vet ./...
