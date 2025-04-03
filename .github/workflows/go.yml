@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
 
     - name: build essential
       run: |
@@ -57,7 +59,7 @@ jobs:
           ${{ runner.os }}-golang-
 
     - name: Cache playwright binaries
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: playwright-cache
       with:
         path: |
