@@ -11,7 +11,7 @@ permissions:
   actions: write
 
 jobs:
-  go_tests:
+  package_builds:
     #runs-on: alrest-techarohq
     runs-on: ubuntu-latest
     steps:
