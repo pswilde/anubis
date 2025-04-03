@@ -10,10 +10,10 @@ Install the Anubis package using your package manager of choice:
 <Tabs>
   <TabItem value="deb" label="Debian-based (apt)" default>
   
-Install Anubis with `dpkg -i`:
+Install Anubis with `apt`:
 
 ```text
-dpkg -i ./anubis-$VERSION-$ARCH.deb
+sudo apt install ./anubis-$VERSION-$ARCH.deb
 ```
 
   </TabItem>
@@ -53,10 +53,26 @@ sudo install -D ./run/default.env /etc/anubis
   </TabItem>
   <TabItem value="rpm" label="Red Hat-based (rpm)">
   
-Install Anubis with `rpm -ivh`:
+Install Anubis with `dnf`:
 
 ```text
-rpm -ivh ./anubis-$VERSION.$ARCH.rpm
+sudo dnf -y install ./anubis-$VERSION.$ARCH.rpm
+```
+
+OR
+
+Install Anubis with `yum`:
+
+```text
+sudo yum -y install ./anubis-$VERSION.$ARCH.rpm
+```
+
+OR
+
+Install Anubis with `rpm`:
+
+```
+sudo rpm -ivh ./anubis-$VERSION.$ARCH.rpm
 ```
 
   </TabItem>
