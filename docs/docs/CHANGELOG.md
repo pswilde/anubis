@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Added support for native Debian, Red Hat, and tarball packaging strategies including installation and use directions.
+- The placeholder Anubis mascot has been replaced with a design by [CELPHASE](https://bsky.app/profile/celphase.bsky.social).
 - Allow iMessage's link preview fetcher through Anubis by default.
 - Added a periodic cleanup routine for the decaymap that removes expired entries, ensuring stale data is properly pruned.
 - Added a no-store Cache-Control header to the challenge page
@@ -36,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `zizmor` for GitHub Actions static analysis
 - Fixed most `zizmor` findings
 - Enabled Dependabot
+- Added an `--extract-resources` flag to extract static resources to a local folder.
 
 ## v1.15.1
 
