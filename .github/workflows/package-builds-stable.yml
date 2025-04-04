@@ -71,9 +71,11 @@ jobs:
     - name: Upload released artifacts
       env:
         GITHUB_TOKEN: ${{ github.TOKEN }}
+        RELEASE_VERSION: ${{github.event.release.tag_name}}
       shell: bash
       run: |
+        RELEASE="${RELEASE_VERSION}"
         cd var
         for file in *; do
-          gh release upload '${{github.event.release.tag_name}}' $file
+          gh release upload $RELEASE $file
         done
