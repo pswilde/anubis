@@ -75,5 +75,5 @@ jobs:
       run: |
         cd var
         for file in *; do
-          gh release upload ${{github.event.release.tag_name}} $file
+          gh release upload '${{github.event.release.tag_name}}' $file
         done
