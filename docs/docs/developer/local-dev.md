@@ -69,7 +69,7 @@ Install `yeet`:
 :::
 
 ```text
-go install within.website/x/cmd/yeet@v1.13.0
+go install within.website/x/cmd/yeet@v1.13.3
 ```
 
 Install the dependencies for Anubis:
