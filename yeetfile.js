@@ -25,3 +25,29 @@ $`npm run assets`;
         },
     }));
 });
+
+// NOTE(Xe): Fixes #217. This is a "half baked" tarball that includes the harder
+// parts for deterministic distros already done. Distributions like NixOS, Gentoo
+// and *BSD ports have a difficult time fitting the square peg of their dependency
+// model into the bazarr of round holes that various modern languages use. Needless
+// to say, this makes adoption easier.
+tarball.build({
+    name: "anubis-src-with-vendor",
+    license: "MIT",
+    // XXX(Xe): This is needed otherwise go will be very sad.
+    platform: yeet.goos,
+    goarch: yeet.goarch,
+
+    build: ({ out }) => {
+        // prepare clean checkout in $out
+        $`git archive --format=tar HEAD | tar xC ${out}`;
+        // generate static assets (CSS, JS)
+        $`cd ${out} && npm ci && npm run assets && rm -rf node_modules`;
+        // vendor Go dependencies
+        $`cd ${out} && go mod vendor`;
+        // write VERSION file
+        $`echo ${git.tag()} > ${out}/VERSION`;
+    },
+
+    mkFilename: ({ name, version }) => `${name}-${version}`,
+});
