@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed most `zizmor` findings
 - Enabled Dependabot
 - Added an `--extract-resources` flag to extract static resources to a local folder.
+- Add noindex flag to all Anubis pages ([#227](https://github.com/TecharoHQ/anubis/issues/227)).
 
 ## v1.15.1
 
