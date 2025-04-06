@@ -3,12 +3,10 @@ VERSION := $(shell cat ./VERSION)
 
 .PHONY: build assets deps lint prebaked-build test
 
-$(NODE_MODULES):
+assets:
 	npm run assets
 
-assets: $(NODE_MODULES)
-
-deps: assets
+deps:
 	npm ci
 	go mod download
 
@@ -20,7 +18,7 @@ all: build
 
 lint:
 	go vet ./...
-	staticcheck ./...
+	go tool staticcheck ./...
 
 prebaked-build:
 	go build -o ./var/anubis -ldflags "-X 'github.com/TecharoHQ/anubis.Version=$(VERSION)'" ./cmd/anubis
