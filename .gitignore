@@ -17,3 +17,6 @@ node_modules
 
 # Intellij
 .idea
+
+# how does this get here
+doc/VERSION
