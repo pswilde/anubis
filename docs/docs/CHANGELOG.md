@@ -23,6 +23,8 @@ The following features are the "big ticket" items:
 - A prebaked tarball has been added, allowing distros to build Anubis like they could in v1.15.x.
 - The placeholder Anubis mascot has been replaced with a design by [CELPHASE](https://bsky.app/profile/celphase.bsky.social).
 - Verification page now shows hash rate and a progress bar for completion probability.
+- Added support for [OpenGraph tags](https://ogp.me/) when rendering the challenge page. This allows for social previews to be generated when sharing the challenge page on social media platforms ([#195](https://github.com/TecharoHQ/anubis/pull/195))
+- Added support for passing the ed25519 signing key in a file with `-ed25519-private-key-hex-file` or `ED25519_PRIVATE_KEY_HEX_FILE`.
 
 The other small fixes have been made:
 
@@ -42,14 +44,12 @@ The other small fixes have been made:
 - Added a wait with button continue + 30 second auto continue after 30s if you click "Why am I seeing this?"
 - Fixed a typo in the challenge page title.
 - Disabled running integration tests on Windows hosts due to it's reliance on posix features (see [#133](https://github.com/TecharoHQ/anubis/pull/133#issuecomment-2764732309)).
-- Added support for passing the ed25519 signing key in a file with `-ed25519-private-key-hex-file` or `ED25519_PRIVATE_KEY_HEX_FILE`.
 - Fixed minor typos
 - Added a Makefile to enable comfortable workflows for downstream packagers.
 - Added `zizmor` for GitHub Actions static analysis
 - Fixed most `zizmor` findings
 - Enabled Dependabot
 - Added an air config for autoreload support in development ([#195](https://github.com/TecharoHQ/anubis/pull/195))
-- Added support for [OpenGraph tags](https://ogp.me/) when rendering the challenge page. This allows for social previews to be generated when sharing the challenge page on social media platforms ([#195](https://github.com/TecharoHQ/anubis/pull/195))
 - Added an `--extract-resources` flag to extract static resources to a local folder.
 - Add noindex flag to all Anubis pages ([#227](https://github.com/TecharoHQ/anubis/issues/227)).
 - Added `WEBMASTER_EMAIL` variable, if it is present then display that email address on error pages ([#235](https://github.com/TecharoHQ/anubis/pull/235), [#115](https://github.com/TecharoHQ/anubis/issues/115))

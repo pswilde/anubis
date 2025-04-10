@@ -12,6 +12,12 @@ These instructions may work, but for right now they are informative for downstre
 
 If you are doing a build entirely from source, here's what you need to do:
 
+:::info
+
+If you maintain a package for Anubis v1.15.x or older, you will need to update your package build. You may want to use one of the half-baked tarballs if your distro/environment of choice makes it difficult to use npm.
+
+:::
+
 ### Tools needed
 
 In order to build a production-ready binary of Anubis, you need the following packages in your environment:
