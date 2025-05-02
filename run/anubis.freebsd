@@ -48,7 +48,6 @@ start_precmd=anubis_startprecmd
 stop_postcmd=anubis_stoppostcmd
 
 anubis_startprecmd () {
-    #export $(xargs < ${anubis_environment_file})
     if [ ! -e ${logfile} ]; then
         install -o ${anubis_user} -g ${anubis_group} /dev/null ${logfile}
     fi
