@@ -17,7 +17,7 @@
 #                              Extra flags passed to anubis.
 # anubis_env (str):            Set to "" by default.
 #                              List of environment variables to be set before starting..
-# anubis_env_file (str):       Set to "" by default.
+# anubis_env_file (str):       Set to "/etc/anubis.env" by default.
 #                              Location of a file containing environment variables.
 #
 # Closely follows the init script from https://cgit.freebsd.org/ports/tree/www/go-anubis/files/anubis.in 
